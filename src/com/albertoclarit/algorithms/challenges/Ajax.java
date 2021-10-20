@@ -4,7 +4,7 @@ public class Ajax {
 
     public static void main(String []args){
 
-        String input = "aaabbcddfgghhd";
+        String input = "aaabbcddfgghh";
 
 
         String output = compress(input);
