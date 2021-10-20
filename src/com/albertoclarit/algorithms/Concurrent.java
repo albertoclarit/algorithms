@@ -1,9 +1,7 @@
 package com.albertoclarit.algorithms;
 
 import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Concurrent {
 
@@ -26,15 +24,12 @@ public class Concurrent {
 
         //=================================
 
-        //newSingleThreadExecutor(ThreadFactory threadFactory) t
+        //newSingleThreadExecutor(ThreadFactory threadFactory)
+
+      //  ExecutorService executor_ = Executors.newSingleThreadExecutor();
         ExecutorService executor = Executors.newFixedThreadPool(10);
-        new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return null;
-            }
-        }
-        for(int i=1;i<100;i++){
+
+        for(int i=1;i<20;i++){
             executor.submit(()-> {
                 try {
                     Thread.sleep(new Random().nextInt(3000));
@@ -47,7 +42,24 @@ public class Concurrent {
         }
 
 
-        System.out.println("Exit");
+        System.out.println("Wait till all is finished");
         executor.shutdown();
+
+
+        System.out.println("Scheduled");
+        ScheduledExecutorService executorService
+                = Executors.newSingleThreadScheduledExecutor();
+
+
+        for(int i=1;i<20;i++){
+            executorService.schedule(()-> {
+                System.out.println("From Scheduled Runnable Lambda: " + Thread.currentThread().getName());
+            },1, TimeUnit.SECONDS);
+
+        }
+
+        executorService.shutdown();
+
+
     }
 }
